@@ -89,10 +89,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="console.cpp" />
+    <ClCompile Include="date_time.cpp" />
+    <ClCompile Include="lesson.cpp" />
+    <ClCompile Include="lesson_filtering.cpp" />
+    <ClCompile Include="lesson_io.cpp" />
+    <ClCompile Include="lesson_sorting.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-
+    <ClInclude Include="console.h" />
+    <ClInclude Include="date_time.h" />
+    <ClInclude Include="lesson.h" />
+    <ClInclude Include="lesson_filtering.h" />
+    <ClInclude Include="lesson_io.h" />
+    <ClInclude Include="lesson_sorting.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

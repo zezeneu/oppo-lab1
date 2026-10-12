@@ -1,8 +1,8 @@
+docs/generated/
+analysis/clang_tidy_report.txt
+analysis/big.txt
 x64/
 .vs/
 bin/
 obj/
 *.user
-docs/generated/
-analysis/clang_tidy_report.txt
-analysis/big.txt
