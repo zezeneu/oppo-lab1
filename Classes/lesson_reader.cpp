@@ -15,13 +15,25 @@ void ParseLine(const std::string& line, size_t number, ReadResult* result) {
   }
 }
 
+// Читает следующую строку. Возвращает false в конце ввода и на пустой строке.
+// В первой строке отбрасывает метку BOM, которую добавляют некоторые редакторы.
+bool NextLine(std::istream& in, bool is_first, std::string* line) {
+  if (!std::getline(in, *line)) {
+    return false;
+  }
+  if (is_first) {
+    StripUtf8Bom(line);
+  }
+  return !Trim(*line).empty();
+}
+
 }  // namespace
 
-ReadResult LessonReader::ReadAll(std::istream& in) const {
+ReadResult LessonReader::ReadAll(std::istream& in) {
   ReadResult result;
   std::string line;
   size_t number = 0;
-  while (std::getline(in, line) && !Trim(line).empty()) {
+  while (NextLine(in, number == 0, &line)) {
     ParseLine(line, ++number, &result);
   }
   return result;

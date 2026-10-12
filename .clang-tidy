@@ -1,0 +1,15 @@
+# Проверки clang-tidy для проекта (читаются автоматически Visual Studio 2022
+# и командой clang-tidy). Короткие имена вроде `in`, `c` допустимы по Google
+# C++ Style Guide, поэтому readability-identifier-length отключена.
+Checks: >
+  bugprone-*,cert-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,
+  modernize-*,performance-*,readability-*,
+  -modernize-use-trailing-return-type,
+  -readability-identifier-length,
+  -misc-include-cleaner,
+  -modernize-use-nodiscard,
+  -readability-redundant-member-init,
+  -cppcoreguidelines-avoid-const-or-ref-data-members,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-avoid-non-const-global-variables
+HeaderFilterRegex: 'Classes/.*'

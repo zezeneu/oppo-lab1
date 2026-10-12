@@ -1,6 +1,7 @@
 ﻿#include "application.h"
 
 #include <string>
+#include <utility>
 
 #include "lesson_rules.h"
 #include "parsing_utils.h"
@@ -14,6 +15,8 @@ const char* const kPrompt =
 
 }  // namespace
 
+// Порядок потоков зафиксирован документацией и проверяется тестами.
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 Application::Application(std::istream& in, std::ostream& out,
                          std::ostream& err)
     : in_(in), out_(out), printer_(out), error_printer_(err) {}
@@ -29,9 +32,9 @@ int Application::Run() {
 }
 
 LessonList Application::ReadLessons() {
-  ReadResult result = reader_.ReadAll(in_);
+  ReadResult result = LessonReader::ReadAll(in_);
   error_printer_.PrintErrors(result.errors);
-  return result.lessons;
+  return std::move(result.lessons);
 }
 
 void Application::ShowFiltered(const LessonList& lessons) {
