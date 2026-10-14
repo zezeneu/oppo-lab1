@@ -15,6 +15,10 @@
 с меткой BOM в начале файла и сделаны небольшие оптимизации.
 
 ## Запуск тестов
+Тесты написаны на библиотеке **Google Test**. Она подключается пакетом NuGet
+`Microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn` (описан в
+`LessonsTests/packages.config`) и скачивается автоматически при сборке. Если этого не
+произошло: ПКМ по решению → «Восстановить пакеты NuGet».
 ПКМ по проекту **LessonsTests** → «Назначить запускаемым проектом» → **Ctrl+F5**.
 В конце должно быть `[  PASSED  ] 116 tests`.
 
@@ -22,8 +26,6 @@
 ```bat
 chcp 65001
 cl /EHsc /std:c++20 /utf-8 /IClasses Lessons\main.cpp Classes\*.cpp /Fe:Lessons.exe
-cl /EHsc /std:c++20 /utf-8 /IClasses /ILessonsTests LessonsTests\*.cpp Classes\date.cpp Classes\time_of_day.cpp Classes\lesson.cpp Classes\lesson_list.cpp Classes\lesson_rules.cpp Classes\lesson_reader.cpp Classes\lesson_printer.cpp Classes\application.cpp Classes\parsing_utils.cpp /Fe:LessonsTests.exe
-LessonsTests.exe
 ```
 
 ## Анализ кода (работа 5)
@@ -36,10 +38,13 @@ LessonsTests.exe
 - Visual Studio 2022: **Анализ → Запуск анализа кода для решения** (набор правил C++ Core Check).
 - clang-tidy: установите LLVM (`winget install LLVM.LLVM`), запустите `analysis\run_clang_tidy.bat`.
 
-### Динамический анализ
-- AddressSanitizer: свойства проекта LessonsTests → C/C++ → Общие → **Включить AddressSanitizer = Да**,
-  инкрементальную компоновку отключить (`/INCREMENTAL:NO`), конфигурация Debug x64, запуск.
-- Фаззер: добавить `analysis\fuzz.cpp` в отдельный проект-консольное приложение (подключить `Classes\*.cpp`) и запускать с ASan.
+### Динамический анализ (Visual Studio 2022)
+1. Свойства проекта **Lessons** → C/C++ → Общие → **Включить AddressSanitizer = Да**;
+   Компоновщик → Общие → **Включить инкрементное связывание = Нет**. Конфигурация Debug, платформа x64.
+2. Свойства проекта → Отладка → Аргументы команды: `< analysis\big.txt` (файл создаёт `analysis\make_big_input.ps1`).
+3. Поставьте точку останова на последней строке `main` и запустите **F5**. В окне «Средства диагностики»
+   видны графики памяти и загрузки ЦП; AddressSanitizer сообщает об ошибках работы с памятью в окне «Вывод».
+4. Дополнительно: `analysis\fuzz.cpp` – фаззер, его можно собрать отдельным консольным проектом с ASan.
 
 ### Профилирование
 `analysis\make_big_input.ps1` создаёт `big.txt`. Запуск: **Отладка → Профилировщик производительности (Alt+F2)** →

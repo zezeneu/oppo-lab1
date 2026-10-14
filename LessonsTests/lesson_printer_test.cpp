@@ -1,6 +1,6 @@
 ﻿#include <sstream>
 
-#include "gtest_lite.h"
+#include <gtest/gtest.h>
 
 #include "lesson_printer.h"
 

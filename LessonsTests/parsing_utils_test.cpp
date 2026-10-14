@@ -1,4 +1,4 @@
-﻿#include "gtest_lite.h"
+﻿#include <gtest/gtest.h>
 
 #include "errors.h"
 #include "parsing_utils.h"

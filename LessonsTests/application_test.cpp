@@ -1,24 +1,24 @@
 ﻿#include <sstream>
 
-#include "gtest_lite.h"
+#include <gtest/gtest.h>
 
 #include "application.h"
 
 namespace {
 
-struct Run {
+struct ProgramResult {
   int code;
   std::string out;
   std::string err;
 };
 
-Run RunWithInput(const std::string& input) {
+ProgramResult RunWithInput(const std::string& input) {
   std::istringstream in(input);
   std::ostringstream out;
   std::ostringstream err;
   Application application(in, out, err);
   int code = application.Run();
-  return Run{code, out.str(), err.str()};
+  return ProgramResult{code, out.str(), err.str()};
 }
 
 bool Contains(const std::string& text, const std::string& part) {
@@ -28,7 +28,7 @@ bool Contains(const std::string& text, const std::string& part) {
 }  // namespace
 
 TEST(Application, FullScenarioProducesExpectedOutput) {
-  Run run = RunWithInput(
+  ProgramResult run = RunWithInput(
       "2024.03.11 14:30 \"Иванов И.И.\"\n"
       "2024.03.11 09:00 \"Петров П.П.\"\n"
       "2024.03.11 11:15 \"Иванов И.И.\"\n"
@@ -56,7 +56,7 @@ TEST(Application, FullScenarioProducesExpectedOutput) {
 }
 
 TEST(Application, BadLinesGoToErrorStreamAndAreSkipped) {
-  Run run = RunWithInput(
+  ProgramResult run = RunWithInput(
       "2024.03.11 10:00 \"А\"\nмусор\n2024.02.30 10:00 \"Б\"\n\nА\n");
   EXPECT_EQ(run.code, 0);
   EXPECT_TRUE(Contains(run.err, "Строка 2 пропущена"));
@@ -66,29 +66,29 @@ TEST(Application, BadLinesGoToErrorStreamAndAreSkipped) {
 }
 
 TEST(Application, EmptyInputPrintsPlaceholders) {
-  Run run = RunWithInput("");
+  ProgramResult run = RunWithInput("");
   EXPECT_EQ(run.code, 0);
   EXPECT_TRUE(Contains(run.out, "(нет занятий)"));
   EXPECT_TRUE(Contains(run.out, "Занятия преподавателя \"\":"));
 }
 
 TEST(Application, MissingFilterLineMeansEmptyFilter) {
-  Run run = RunWithInput("2024.03.11 10:00 \"А\"\n");
+  ProgramResult run = RunWithInput("2024.03.11 10:00 \"А\"\n");
   EXPECT_TRUE(Contains(run.out, "Занятия преподавателя \"\":\n(нет занятий)"));
 }
 
 TEST(Application, UnknownTeacherGivesNoLessons) {
-  Run run = RunWithInput("2024.03.11 10:00 \"А\"\n\nБ\n");
+  ProgramResult run = RunWithInput("2024.03.11 10:00 \"А\"\n\nБ\n");
   EXPECT_TRUE(Contains(run.out, "Занятия преподавателя \"Б\":\n(нет занятий)"));
 }
 
 TEST(Application, FilterNameIsTrimmed) {
-  Run run = RunWithInput("2024.03.11 10:00 \"А\"\n\n   А  \n");
+  ProgramResult run = RunWithInput("2024.03.11 10:00 \"А\"\n\n   А  \n");
   EXPECT_TRUE(Contains(run.out, "Занятия преподавателя \"А\":\n2024.03.11"));
 }
 
 TEST(Application, SortingUsesDateBeforeTime) {
-  Run run = RunWithInput(
+  ProgramResult run = RunWithInput(
       "2024.03.12 08:00 \"А\"\n2024.03.11 18:00 \"Б\"\n\nА\n");
   size_t first = run.out.find("по возрастанию");
   ASSERT_TRUE(first != std::string::npos);
@@ -98,14 +98,14 @@ TEST(Application, SortingUsesDateBeforeTime) {
 }
 
 TEST(Application, OnlyErrorsStillCompletes) {
-  Run run = RunWithInput("x\ny\n\nА\n");
+  ProgramResult run = RunWithInput("x\ny\n\nА\n");
   EXPECT_EQ(run.code, 0);
   EXPECT_TRUE(Contains(run.err, "Строка 1 пропущена"));
   EXPECT_TRUE(Contains(run.out, "(нет занятий)"));
 }
 
 TEST(Application, InputFileWithBomKeepsFirstLesson) {
-  Run run = RunWithInput("\xEF\xBB\xBF" "2024.03.11 09:00 \"A\"\n\nA\n");
+  ProgramResult run = RunWithInput("\xEF\xBB\xBF" "2024.03.11 09:00 \"A\"\n\nA\n");
   EXPECT_TRUE(run.err.empty());
   EXPECT_TRUE(Contains(run.out, "2024.03.11  09:00  A"));
 }

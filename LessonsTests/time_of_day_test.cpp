@@ -1,4 +1,4 @@
-﻿#include "gtest_lite.h"
+﻿#include <gtest/gtest.h>
 
 #include "errors.h"
 #include "time_of_day.h"
