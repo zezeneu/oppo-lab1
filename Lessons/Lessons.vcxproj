@@ -62,7 +62,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:windows-1251 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,7 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/source-charset:utf-8 /execution-charset:windows-1251 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -89,21 +89,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="console.cpp" />
-    <ClCompile Include="date_time.cpp" />
-    <ClCompile Include="lesson.cpp" />
-    <ClCompile Include="lesson_filtering.cpp" />
-    <ClCompile Include="lesson_io.cpp" />
-    <ClCompile Include="lesson_sorting.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\Classes\application.cpp" />
+    <ClCompile Include="..\Classes\console.cpp" />
+    <ClCompile Include="..\Classes\date.cpp" />
+    <ClCompile Include="..\Classes\lesson.cpp" />
+    <ClCompile Include="..\Classes\lesson_list.cpp" />
+    <ClCompile Include="..\Classes\lesson_printer.cpp" />
+    <ClCompile Include="..\Classes\lesson_reader.cpp" />
+    <ClCompile Include="..\Classes\lesson_rules.cpp" />
+    <ClCompile Include="..\Classes\parsing_utils.cpp" />
+    <ClCompile Include="..\Classes\time_of_day.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="console.h" />
-    <ClInclude Include="date_time.h" />
-    <ClInclude Include="lesson.h" />
-    <ClInclude Include="lesson_filtering.h" />
-    <ClInclude Include="lesson_io.h" />
-    <ClInclude Include="lesson_sorting.h" />
+    <ClInclude Include="..\Classes\application.h" />
+    <ClInclude Include="..\Classes\console.h" />
+    <ClInclude Include="..\Classes\date.h" />
+    <ClInclude Include="..\Classes\errors.h" />
+    <ClInclude Include="..\Classes\lesson.h" />
+    <ClInclude Include="..\Classes\lesson_list.h" />
+    <ClInclude Include="..\Classes\lesson_printer.h" />
+    <ClInclude Include="..\Classes\lesson_reader.h" />
+    <ClInclude Include="..\Classes\lesson_rules.h" />
+    <ClInclude Include="..\Classes\parsing_utils.h" />
+    <ClInclude Include="..\Classes\time_of_day.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
