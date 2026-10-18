@@ -77,3 +77,22 @@ TEST(LessonReader, WindowsLineEndingsAreAccepted) {
   EXPECT_EQ(result.lessons.size(), 2u);
   EXPECT_TRUE(result.errors.empty());
 }
+
+TEST(LessonReader, IgnoresUtf8BomAtStartOfInput) {
+  std::istringstream in("\xEF\xBB\xBF" "2024.03.11 09:00 \"A\"\n2024.03.11 10:00 \"B\"\n");
+  ReadResult result = LessonReader().ReadAll(in);
+  EXPECT_EQ(result.lessons.size(), 2u);
+  EXPECT_TRUE(result.errors.empty());
+}
+
+TEST(LessonReader, BomInsideLaterLineIsStillAnError) {
+  std::istringstream in("2024.03.11 09:00 \"A\"\n\xEF\xBB\xBF" "2024.03.11 10:00 \"B\"\n");
+  ReadResult result = LessonReader().ReadAll(in);
+  EXPECT_EQ(result.lessons.size(), 1u);
+  EXPECT_EQ(result.errors.size(), 1u);
+}
+
+TEST(LessonReader, BomBeforeBlankLineIsSkipped) {
+  std::istringstream in("\xEF\xBB\xBF\n2024.03.11 09:00 \"A\"\n");
+  EXPECT_EQ(LessonReader().ReadAll(in).lessons.size(), 1u);
+}

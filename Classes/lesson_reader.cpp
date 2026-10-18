@@ -17,12 +17,14 @@ void ParseLine(const std::string& line, size_t number, ReadResult* result) {
 
 }  // namespace
 
-ReadResult LessonReader::ReadAll(std::istream& in) const {
+ReadResult LessonReader::ReadAll(std::istream& in) {
   ReadResult result;
   std::string line;
   size_t number = 0;
   while (std::getline(in, line)) {
-    ++number;
+    if (++number == 1) {
+      StripUtf8Bom(&line);  // метка BOM только в самом начале файла
+    }
     if (!Trim(line).empty()) {
       ParseLine(line, number, &result);
     }

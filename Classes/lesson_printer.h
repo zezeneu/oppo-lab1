@@ -1,4 +1,5 @@
-﻿// Вывод занятий и сообщений об ошибках в поток.
+﻿/// @file
+/// @brief Вывод занятий и сообщений об ошибках в поток.
 #ifndef LESSONS_LESSON_PRINTER_H_
 #define LESSONS_LESSON_PRINTER_H_
 
@@ -13,10 +14,10 @@ class LessonPrinter {
  public:
   explicit LessonPrinter(std::ostream& out) : out_(out) {}
 
-  // Печатает пустую строку, заголовок и занятия (или «(нет занятий)»).
+  /// Печатает пустую строку, заголовок и занятия (или «(нет занятий)»).
   void PrintSection(const std::string& title, const LessonList& lessons) const;
 
-  // Печатает по одной строке на каждую ошибку: «Строка N пропущена: ...».
+  /// Печатает по одной строке на каждую ошибку: «Строка N пропущена: ...».
   void PrintErrors(const std::vector<LineError>& errors) const;
 
  private:

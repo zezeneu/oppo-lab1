@@ -13,6 +13,8 @@ std::string InputPath(int argc, char** argv) {
 
 int main(int argc, char** argv) {
   SetUpConsole();
+  // Отключает синхронизацию с C-потоками: ввод и вывод заметно быстрее.
+  std::ios::sync_with_stdio(false);
   const std::string path = InputPath(argc, argv);
   std::ifstream file(path);
   if (!file) {

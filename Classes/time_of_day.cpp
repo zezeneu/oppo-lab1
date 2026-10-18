@@ -1,9 +1,13 @@
 ﻿#include "time_of_day.h"
 
-#include <cstdio>
-
 #include "errors.h"
 #include "parsing_utils.h"
+
+namespace {
+
+constexpr size_t kPartWidth = 2;
+
+}  // namespace
 
 TimeOfDay::TimeOfDay(int hours, int minutes)
     : hours_(hours), minutes_(minutes) {
@@ -12,7 +16,5 @@ TimeOfDay::TimeOfDay(int hours, int minutes)
 }
 
 std::string TimeOfDay::ToString() const {
-  char buffer[16];
-  std::snprintf(buffer, sizeof(buffer), "%02d:%02d", hours_, minutes_);
-  return buffer;
+  return ZeroPad(hours_, kPartWidth) + ":" + ZeroPad(minutes_, kPartWidth);
 }

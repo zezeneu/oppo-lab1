@@ -43,3 +43,40 @@ TEST(Errors, HierarchyAllowsCatchingByBaseClass) {
   EXPECT_THROW(throw RangeError("x"), std::runtime_error);
 }
 
+TEST(StripUtf8Bom, RemovesLeadingBom) {
+  std::string text = "\xEF\xBB\xBF" "abc";
+  StripUtf8Bom(&text);
+  EXPECT_EQ(text, std::string("abc"));
+}
+
+TEST(StripUtf8Bom, LeavesTextWithoutBomUnchanged) {
+  std::string text = "abc";
+  StripUtf8Bom(&text);
+  EXPECT_EQ(text, std::string("abc"));
+}
+
+TEST(StripUtf8Bom, RemovesOnlyOneBomAndOnlyAtStart) {
+  std::string text = "a\xEF\xBB\xBF";
+  StripUtf8Bom(&text);
+  EXPECT_EQ(text, std::string("a\xEF\xBB\xBF"));
+}
+
+TEST(StripUtf8Bom, HandlesShortStrings) {
+  std::string empty;
+  std::string partial = "\xEF\xBB";
+  StripUtf8Bom(&empty);
+  StripUtf8Bom(&partial);
+  EXPECT_TRUE(empty.empty());
+  EXPECT_EQ(partial, std::string("\xEF\xBB"));
+}
+
+TEST(ZeroPad, PadsShortNumbersWithZeros) {
+  EXPECT_EQ(ZeroPad(7, 2), std::string("07"));
+  EXPECT_EQ(ZeroPad(0, 2), std::string("00"));
+  EXPECT_EQ(ZeroPad(45, 4), std::string("0045"));
+}
+
+TEST(ZeroPad, DoesNotTruncateLongNumbers) {
+  EXPECT_EQ(ZeroPad(12345, 4), std::string("12345"));
+  EXPECT_EQ(ZeroPad(10, 2), std::string("10"));
+}

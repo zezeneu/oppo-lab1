@@ -110,3 +110,9 @@ TEST(Application, OnlyErrorsStillCompletes) {
   EXPECT_TRUE(Contains(run.err, "Строка 1 пропущена"));
   EXPECT_TRUE(Contains(run.out, "(нет занятий)"));
 }
+
+TEST(Application, InputFileWithBomKeepsFirstLesson) {
+  ProgramResult run = RunWithInput("\xEF\xBB\xBF" "2024.03.11 09:00 \"A\"\n", "A\n");
+  EXPECT_TRUE(run.err.empty());
+  EXPECT_TRUE(Contains(run.out, "2024.03.11  09:00  A"));
+}
