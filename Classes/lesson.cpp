@@ -59,11 +59,11 @@ Lesson::Lesson(Date date, TimeOfDay time, const std::string& teacher_name)
 
 Lesson Lesson::Parse(const std::string& line) {
   const std::smatch parts = MatchLine(line);
-  const Date date(ToInt(parts[kYearGroup]), ToInt(parts[kMonthGroup]),
-                  ToInt(parts[kDayGroup]));
-  const TimeOfDay time(ToInt(parts[kHoursGroup]),
-                       ToInt(parts[kMinutesGroup]));
-  return {date, time, parts[kNameGroup].str()};
+  const Date lesson_date(ToInt(parts[kYearGroup]), ToInt(parts[kMonthGroup]),
+                         ToInt(parts[kDayGroup]));
+  const TimeOfDay lesson_time(ToInt(parts[kHoursGroup]),
+                              ToInt(parts[kMinutesGroup]));
+  return {lesson_date, lesson_time, parts[kNameGroup].str()};
 }
 
 bool Lesson::StartsBefore(const Lesson& other) const {
