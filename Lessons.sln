@@ -1,10 +1,9 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lessons", "Lessons\Lessons.vcxproj", "{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D01}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LessonsTests", "LessonsTests\LessonsTests.vcxproj", "{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,10 +15,6 @@ Global
 		{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D01}.Debug|x64.Build.0 = Debug|x64
 		{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D01}.Release|x64.ActiveCfg = Release|x64
 		{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D01}.Release|x64.Build.0 = Release|x64
-		{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D02}.Debug|x64.ActiveCfg = Debug|x64
-		{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D02}.Debug|x64.Build.0 = Debug|x64
-		{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D02}.Release|x64.ActiveCfg = Release|x64
-		{3A7D1C20-5B64-4E0F-9C11-6A2B7E4F8D02}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
